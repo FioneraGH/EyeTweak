@@ -1,0 +1,9 @@
+Package: com.fionera.itweak
+Name: iTweak
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Multi Tweaks on a jailbroken iOS 13.2 iPhone
+Maintainer: fionera
+Author: fionera
+Section: Tweaks
