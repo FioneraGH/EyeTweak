@@ -1,7 +1,7 @@
 #define CGRectSetY(rect, y) CGRectMake(rect.origin.x, y, rect.size.width, rect.size.height)
 
 // Declaring our Variables that will be used throughout the program
-static NSInteger statusBarStyle, screenRoundness, appswitcherRoundness, bottomInsetVersion;
+static NSInteger statusBarStyle, bottomInsetSize, screenRoundness, appswitcherRoundness, bottomInsetVersion;
 static BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, wantsRoundedAppSwitcher, wantsReduceRows, wantsCCGrabber, wantsRoundedCorners, wantsPIP, wantsProudLock, wantsHideSBCC,wantsLSShortcuts, wantsBatteryPercent;
 
 // Telling the iPhone that we want the fluid gestures
@@ -84,9 +84,9 @@ static BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDoc
 {
     UIEdgeInsets x = %orig;
     return UIEdgeInsetsMake(
-        x.top + 12,
+        x.top + 10,
         x.left,
-        x.bottom - 12,
+        x.bottom - 10,
         x.right
     );
 }
@@ -94,13 +94,13 @@ static BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDoc
 
 // Fix control center, it dosen't crash anymore on iOS 13 like it does on iOS 12 but this is still wanted
 %hook _UIStatusBarVisualProvider_iOS
-// + (Class)class {
-//     return NSClassFromString(@"_UIStatusBarVisualProvider_Split58");
-// }
-
-+ (Class)visualProviderSubclassForScreen:(id)arg1 {
++ (Class)class {
     return NSClassFromString(@"_UIStatusBarVisualProvider_Split58");
 }
+
+// + (Class)visualProviderSubclassForScreen:(id)arg1 {
+//     return NSClassFromString(@"_UIStatusBarVisualProvider_Split58");
+// }
 %end
 %end
 
@@ -285,17 +285,17 @@ int applicationDidFinishLaunching;
 %hook UIApplicationSceneSettings
 - (UIEdgeInsets)safeAreaInsetsLandscapeLeft {
     UIEdgeInsets _insets = %orig;
-    _insets.bottom = 18;
+    _insets.bottom = bottomInsetSize;
     return _insets;
 }
 - (UIEdgeInsets)safeAreaInsetsLandscapeRight {
     UIEdgeInsets _insets = %orig;
-    _insets.bottom = 18;
+    _insets.bottom = bottomInsetSize;
     return _insets;
 }
 - (UIEdgeInsets)safeAreaInsetsPortrait {
     UIEdgeInsets _insets = %orig;
-    _insets.bottom = 18;
+    _insets.bottom = bottomInsetSize;
     return _insets;
 }
  %end
@@ -393,6 +393,7 @@ static void loadPrefs() {
 	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.fionera.itweakprefs.plist"];
 	if (prefs) {
 		statusBarStyle = [[prefs objectForKey:@"statusBarStyle"] integerValue];
+        bottomInsetSize = [[prefs objectForKey:@"bottomInsetSize"] integerValue];
         screenRoundness = [[prefs objectForKey:@"screenRoundness"] integerValue];
         appswitcherRoundness = [[prefs objectForKey:@"appswitcherRoundness"] integerValue];
         bottomInsetVersion = [[prefs objectForKey:@"bottomInsetVersion"] integerValue];
@@ -441,7 +442,7 @@ static void initPrefs() {
         }
         else wantsHideSBCC = YES;
 
-	    if (bottomInsetVersion == 1 || bottomInsetVersion == 2) {
+	    if (bottomInsetVersion == 1 || (bottomInsetVersion == 2 && [bundleIdentifier isEqualToString:@"com.tencent.xin"])) {
             %init(bottomInset)
         }
         

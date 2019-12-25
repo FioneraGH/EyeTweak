@@ -165,12 +165,38 @@
 			<array>
 				<integer>0</integer>
 				<integer>1</integer>
+				<integer>2</integer>
 			</array>
 			<key>validTitles</key>
 			<array>
 				<string>No bottom inset</string>
-				<string>Old bottom inset</string>
+				<string>Bottom inset</string>
+				<string>Bottom inset (WeChat)</string>
 			</array>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>isSegmented</key>
+			<true/>
+			<key>default</key>
+			<real>18</real>
+			<key>leftImage</key>
+			<string></string>
+			<key>max</key>
+			<real>26</real>
+			<key>min</key>
+			<integer>1</integer>
+			<key>rightImage</key>
+			<string></string>
+			<key>showValue</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>bottomInsetSize</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
