@@ -1,4 +1,5 @@
 export TARGET = iphone:clang:13.1
+export ADDITIONAL_CFLAGS = -DTHEOS_LEAN_AND_MEAN -fobjc-arc
 
 FINALPACKAGE=1
 
@@ -9,7 +10,7 @@ ARCHS = arm64
 TWEAK_NAME = iTweak
 iTweak_FILES = Tweak.xm
 iTweak_LIBRARIES = MobileGestalt
-iTweak_CFLAGS = -fobjc-arc
+#iTweak_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

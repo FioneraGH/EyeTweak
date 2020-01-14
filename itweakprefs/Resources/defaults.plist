@@ -40,5 +40,7 @@
 	<false/>
 	<key>lsShortcutsEnabled</key>
 	<true/>
+	<key>11Camera</key>
+	<false/>
 </dict>
 </plist>
