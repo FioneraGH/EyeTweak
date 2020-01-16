@@ -38,7 +38,7 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 	return wantsLSShortcuts;
 }
 - (void)_layoutQuickActionButtons {
-	CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
     UIEdgeInsets insets = [self _buttonOutsets];
     ((SBFTouchPassThroughView *) self).flashlightButton.frame = CGRectMake(46, screenBounds.size.height - 90 - insets.top, 50, 50);
     ((SBFTouchPassThroughView *) self).cameraButton.frame = CGRectMake(screenBounds.size.width - 96, screenBounds.size.height - 90 - insets.top, 50, 50);
@@ -218,7 +218,7 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
     NSArray * lockHome = @[@104, @101];
     NSArray * lockVol = @[@104, @102, @103];
     if ([arg1 isEqual:lockVol]) {
-        %orig(lockHome);
+        return %orig(lockHome);
     }
     %orig;
 }
