@@ -1,4 +1,4 @@
-export TARGET = iphone:clang:13.1
+export TARGET = iphone:clang:13.0
 export ADDITIONAL_CFLAGS = -DTHEOS_LEAN_AND_MEAN -fobjc-arc
 
 FINALPACKAGE=1

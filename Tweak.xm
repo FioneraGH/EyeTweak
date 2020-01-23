@@ -310,15 +310,35 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 %group iPhone11Cam
 %hook CAMCaptureCapabilities 
-- (BOOL)isCTMSupported {
+// - (BOOL)isCTMSupported {
+//     return YES;
+// }
+- (BOOL)deviceSupportsCTM {
     return YES;
 }
-%end
-%hook CAMViewfinderViewController 
-- (BOOL)_wantsHDRControlsVisible {
+// - (BOOL)isCTMSupportSupressed {
+//     return NO;
+// }
+- (BOOL)isBackDualSupported {
+    return YES;
+}
+- (BOOL)isFrontPortraitModeSupported {
+    return NO;
+}
+- (BOOL)isBackPortraitModeSupported {
     return NO;
 }
 %end
+%hook CAMFlipButton
+- (BOOL)_useCTMAppearance {
+    return YES;
+}
+%end
+// %hook CAMViewfinderViewController
+// - (BOOL)_wantsHDRControlsVisible {
+//     return NO;
+// }
+// %end
 %end
 
 // Adds a bottom inset to the camera app.
