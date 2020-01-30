@@ -16,7 +16,7 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 #### 1.2.0
 
-- Some implemetation from Little11 (1.2.1)
+- Some implemetations from Little11 (1.2.0)
 
 #### 1.1.1
 
