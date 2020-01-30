@@ -19,17 +19,10 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 @property(retain, nonatomic) UIImageView *controlCenterGlyphView; 
 @end
 
-// Enables & Fixes the toggles on the lockscreen.
-@interface UICoverSheetButton : UIControl
-@end
-
-@interface SBFTouchPassThroughView : UIView
-@property(nonatomic, retain) UICoverSheetButton *flashlightButton;
-@property(nonatomic, retain) UICoverSheetButton *cameraButton;
-@end
-
 @interface CSQuickActionsView : UIView
 - (UIEdgeInsets)_buttonOutsets;
+@property (nonatomic, retain) UIControl *flashlightButton; 
+@property (nonatomic, retain) UIControl *cameraButton;
 @end
 
 %hook CSQuickActionsView
@@ -39,9 +32,10 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 }
 - (void)_layoutQuickActionButtons {
     CGRect screenBounds = [UIScreen mainScreen].bounds;
-    UIEdgeInsets insets = [self _buttonOutsets];
-    ((SBFTouchPassThroughView *) self).flashlightButton.frame = CGRectMake(46, screenBounds.size.height - 90 - insets.top, 50, 50);
-    ((SBFTouchPassThroughView *) self).cameraButton.frame = CGRectMake(screenBounds.size.width - 96, screenBounds.size.height - 90 - insets.top, 50, 50);
+    int inset = [self _buttonOutsets].top;
+
+    [self flashlightButton].frame = CGRectMake(46, screenBounds.size.height - 90 - inset, 50, 50);
+    [self cameraButton].frame = CGRectMake(screenBounds.size.width - 96, screenBounds.size.height - 90 - inset, 50, 50);
 }
 %end
 
@@ -66,6 +60,15 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
     return %orig(YES);
 }
 %end 
+
+%hook _UIStatusBarStringView  
+- (void)setText:(NSString *)text {
+    if ([text containsString:@"%"])
+        return;
+    else
+        %orig(text);
+}     
+%end
 %end
 
 // Reduce reachability sensitivity.
@@ -87,18 +90,6 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 // All the hooks for the iPhone X statusbar.
 %group StatusBarX
-%hook SBIconListGridLayoutConfiguration
-- (UIEdgeInsets)portraitLayoutInsets {
-    UIEdgeInsets x = %orig;
-    return UIEdgeInsetsMake(
-        x.top + 10,
-        x.left,
-        x.bottom - 10,
-        x.right
-    );
-}
-%end
-
 %hook _UIStatusBarVisualProvider_iOS
 + (Class)class {
     return NSClassFromString(@"_UIStatusBarVisualProvider_Split58");
@@ -108,6 +99,23 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 //     return NSClassFromString(@"_UIStatusBarVisualProvider_Split58");
 // }
 %end
+
+%hook SBIconListGridLayoutConfiguration
+- (UIEdgeInsets)portraitLayoutInsets {
+    UIEdgeInsets x = %orig;
+    return UIEdgeInsetsMake(
+        x.top + 10,
+        x.left,
+        x.bottom - 10,
+        x.right);
+}
+%end
+
+%hook TFNNavigationBarOverlayView  
+- (void)setFrame:(CGRect)frame {
+    %orig(CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + 6));
+}
+%end
 %end
 
 // All the hooks for the iPad statusbar.
@@ -115,7 +123,8 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 %hook _UIStatusBarVisualProvider_iOS
 + (Class)class {
-    if (screenRoundness > 15) return NSClassFromString(@"_UIStatusBarVisualProvider_RoundedPad_ForcedCellular");
+    if (screenRoundness > 15)
+        return NSClassFromString(@"_UIStatusBarVisualProvider_RoundedPad_ForcedCellular");
     return NSClassFromString(@"_UIStatusBarVisualProvider_Pad_ForcedCellular");
 }
 %end
@@ -123,8 +132,10 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 // Fixes status bar glitch after closing control center
 %hook CCUIHeaderPocketView
 - (void)setFrame:(CGRect)frame {
-    if (screenRoundness > 15) %orig(CGRectSetY(frame, -20));
-    else %orig(CGRectSetY(frame, -24));
+    if (screenRoundness > 15)
+        %orig(CGRectSetY(frame, -20));
+    else
+        %orig(CGRectSetY(frame, -24));
 }
 %end
 %end
@@ -151,7 +162,12 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %hook UIKeyboardImpl
 + (UIEdgeInsets)deviceSpecificPaddingForInterfaceOrientation:(NSInteger)orientation inputMode:(id)mode {
     UIEdgeInsets orig = %orig;
-    NSClassFromString(@"BarmojiCollectionView") ? orig.bottom = 80 : orig.bottom = 46;
+    if (!NSClassFromString(@"BarmojiCollectionView"))
+        orig.bottom = 46;
+    if (orig.left == 75) {
+        orig.left = 0;
+        orig.right = 0;
+    }
     return orig;
 }
 %end
@@ -159,8 +175,11 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 // Moves the emoji and dictation icon on the keyboard. Automatically adjust the location depending if Barmoji is installed or not.
 %hook UIKeyboardDockView
 - (CGRect)bounds {
+    if (NSClassFromString(@"BarmojiCollectionView"))
+        return %orig;
+
     CGRect bounds = %orig;
-    NSClassFromString(@"BarmojiCollectionView") ? bounds.origin.y = 2 : bounds.size.height += 15;
+    bounds.size.height += 15;
     return bounds;
 }
 %end
@@ -180,8 +199,9 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %group reduceRows
 %hook SBIconListView
 - (unsigned long long)iconRowsForCurrentOrientation {
-    if (%orig < 4) return %orig;
-	return %orig - wantsReduceRows;
+    if (%orig < 4)
+        return %orig;
+    return %orig - wantsReduceRows;
 }
 %end
 %end
@@ -190,10 +210,10 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %group ccGrabber
 
 %hook CSTeachableMomentsContainerView
-- (void)layoutSubviews {
+- (void)_layoutControlCenterGrabberAndGlyph {
     %orig;
     if (statusBarStyle == 2) {
-        self.controlCenterGrabberEffectContainerView.frame = CGRectMake(self.frame.size.width - 73, 36 ,46 ,2.5);
+        self.controlCenterGrabberEffectContainerView.frame = CGRectMake(self.frame.size.width - 73, 36, 46, 2.5);
         self.controlCenterGrabberView.frame = CGRectMake(0, 0, 46, 2.5);
         self.controlCenterGlyphView.frame = CGRectMake(315, 45, 16.6, 19.3);
     } else if (statusBarStyle == 1) {
@@ -207,16 +227,10 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 // Allows you to use the non-X iPhone button combinations.
 %group originalButtons
-%hook SBLockHardwareButtonActions
-- (id)initWithHomeButtonType:(long long)arg1 proximitySensorManager:(id)arg2 {
-    return %orig(1, arg2);
-}
-%end
-
 %hook SBPressGestureRecognizer
 - (void)setAllowedPressTypes:(NSArray *)arg1 {
-    NSArray * lockHome = @[@104, @101];
-    NSArray * lockVol = @[@104, @102, @103];
+    NSArray *lockHome = @[ @104, @101 ];
+    NSArray *lockVol = @[ @104, @102, @103 ];
     if ([arg1 isEqual:lockVol]) {
         return %orig(lockHome);
     }
@@ -224,24 +238,15 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 }
 %end
 
-%hook SBClickGestureRecognizer
-- (void)addShortcutWithPressTypes:(id)arg1 {
-    return;
-}
-%end
-
 %hook SBHomeHardwareButton
-- (id)initWithScreenshotGestureRecognizer:(id)arg1 homeButtonType:(long long)arg2 buttonActions:(id)arg3 gestureRecognizerConfiguration:(id)arg4 {
-    return %orig(arg1, 1, arg3, arg4);
-}
 - (id)initWithScreenshotGestureRecognizer:(id)arg1 homeButtonType:(long long)arg2 {
     return %orig(arg1, 1);
 }
 %end
 
-%hook SBVolumeHardwareButton
-- (id)initWithScreenshotGestureRecognizer:(id)arg1 shutdownGestureRecognizer:(id)arg2 homeButtonType:(long long)arg3 {
-    return %orig(arg1, arg2, 1);
+%hook SBClickGestureRecognizer
+- (void)addShortcutWithPressTypes:(NSArray *)arg1 {
+    return;
 }
 %end
 %end
@@ -256,9 +261,15 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %hook _UIRootWindow
 - (void)layoutSubviews {
     %orig;
-    self._continuousCornerRadius = screenRoundness;
+
     self.clipsToBounds = YES;
-    return;
+    self._continuousCornerRadius = screenRoundness;
+}
+%end
+
+%hook SBReachabilityBackgroundView
+- (double)_displayCornerRadius {
+    return screenRoundness;
 }
 %end
 %end
@@ -290,7 +301,7 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 #define keyy(key_) CFEqual(key, CFSTR(key_))
     if (keyy("nVh/gwNpy7Jv1NOk00CMrw"))
         return wantsPIP;
-    else if (keyy("z5G/N9jcMdgPm8UegLwbKg")) 
+    else if (keyy("z5G/N9jcMdgPm8UegLwbKg"))
         return wantsProudLock;
     return %orig;
 }
@@ -356,21 +367,11 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %end
 %end
 
-// Fix the iPhone X status bar in Google Maps.
-%group GMapsFix
-
-%hook UIStatusBar_Modern
-- (void)setFrame:(CGRect)frame {
-    %orig(CGRectSetY(frame, -10));
-}
-%end
-%end
-
 // Preferences.
 void loadPrefs() {
 	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.fionera.itweakprefs.plist"];
-	if (prefs) {
-		statusBarStyle = [[prefs objectForKey:@"statusBarStyle"] integerValue];
+    if (prefs) {
+        statusBarStyle = [[prefs objectForKey:@"statusBarStyle"] integerValue];
         bottomInsetSize = [[prefs objectForKey:@"bottomInsetSize"] integerValue];
         screenRoundness = [[prefs objectForKey:@"screenRoundness"] integerValue];
         appswitcherRoundness = [[prefs objectForKey:@"appswitcherRoundness"] integerValue];
@@ -378,9 +379,9 @@ void loadPrefs() {
         wantsHideIconLabel = [[prefs objectForKey:@"noIconLabel"] boolValue];
         wantsHomeBarSB = [[prefs objectForKey:@"homeBarSB"] boolValue];
         wantsHomeBarLS = [[prefs objectForKey:@"homeBarLS"] boolValue];
-        wantsKeyboardDock =  [[prefs objectForKey:@"keyboardDock"] boolValue];
-        wantsRoundedAppSwitcher =[[prefs objectForKey:@"roundedAppSwitcher"] boolValue];
-        wantsReduceRows =  [[prefs objectForKey:@"reduceRows"] boolValue];
+        wantsKeyboardDock = [[prefs objectForKey:@"keyboardDock"] boolValue];
+        wantsRoundedAppSwitcher = [[prefs objectForKey:@"roundedAppSwitcher"] boolValue];
+        wantsReduceRows = [[prefs objectForKey:@"reduceRows"] boolValue];
         wantsCCGrabber = [[prefs objectForKey:@"ccGrabber"] boolValue];
         wantsBatteryPercent = [[prefs objectForKey:@"batteryPercent"] boolValue];
         wantsRoundedCorners = [[prefs objectForKey:@"roundedCorners"] boolValue];
@@ -389,7 +390,7 @@ void loadPrefs() {
         wantsHideSBCC = [[prefs objectForKey:@"HideSBCC"] boolValue];
         wantsLSShortcuts = [[prefs objectForKey:@"lsShortcutsEnabled"] boolValue];
         wants11Camera = [[prefs objectForKey:@"11Camera"] boolValue];
-	}
+    }
 }
 
 void initPrefs() {
@@ -409,16 +410,13 @@ void initPrefs() {
 %ctor {
     @autoreleasepool {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.fionera.itweakprefs/prefsupdated"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-	    initPrefs();
-	    loadPrefs();
+        initPrefs();
+        loadPrefs();
 
-        NSString* bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
 
         if (statusBarStyle == 1) %init(StatusBariPad)
-        else if (statusBarStyle == 2) {
-            %init(StatusBarX);
-            if ([bundleIdentifier isEqualToString:@"com.google.Maps"]) %init(GMapsFix);
-        }
+        else if (statusBarStyle == 2) %init(StatusBarX);
         else wantsHideSBCC = YES;
 
 	    if (bottomInsetVersion == 1 || (bottomInsetVersion == 2 && [bundleIdentifier isEqualToString:@"com.tencent.xin"])) {
