@@ -110,12 +110,6 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
         x.right);
 }
 %end
-
-%hook TFNNavigationBarOverlayView  
-- (void)setFrame:(CGRect)frame {
-    %orig(CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + 6));
-}
-%end
 %end
 
 // All the hooks for the iPad statusbar.
@@ -241,6 +235,12 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %hook SBHomeHardwareButton
 - (id)initWithScreenshotGestureRecognizer:(id)arg1 homeButtonType:(long long)arg2 {
     return %orig(arg1, 1);
+}
+%end
+
+%hook SBLockHardwareButtonActions
+- (id)initWithHomeButtonType:(long long)arg1 proximitySensorManager:(id)arg2 {
+    return %orig(1, arg2);
 }
 %end
 
