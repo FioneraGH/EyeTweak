@@ -4,7 +4,7 @@
 
 // Declaring our Variables that will be used throughout the program
 NSInteger statusBarStyle, bottomInsetSize, screenRoundness, appswitcherRoundness, bottomInsetVersion;
-BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, wantsRoundedAppSwitcher, wantsReduceRows, wantsCCGrabber, wantsRoundedCorners, wantsPIP, wantsProudLock, wantsHideSBCC, wantsLSShortcuts, wantsBatteryPercent, wants11Camera;
+BOOL wantsQuickKeyboard, wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, wantsRoundedAppSwitcher, wantsReduceRows, wantsCCGrabber, wantsRoundedCorners, wantsPIP, wantsProudLock, wantsHideSBCC, wantsLSShortcuts, wantsBatteryPercent, wants11Camera;
 
 // Telling the iPhone that we want the fluid gestures
 %hook BSPlatform
@@ -114,7 +114,6 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 // All the hooks for the iPad statusbar.
 %group StatusBariPad
-
 %hook _UIStatusBarVisualProvider_iOS
 + (Class)class {
     if (screenRoundness > 15)
@@ -150,6 +149,48 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %end
 %end
 
+@interface UIKeyboardInputMode : UITextInputMode
+@property(retain) NSString *identifier;
+@end
+
+@interface UIKeyboardInputModeController : NSObject
+@property(retain) UIKeyboardInputMode* currentInputMode;
+- (NSArray *)activeInputModes;
+@end
+
+UIKeyboardInputMode *keyboardResult(UIKeyboardInputModeController *object, int a, int b) {
+	UIKeyboardInputMode *currentInputMode = object.currentInputMode;
+	NSArray *activeInputModes = [object activeInputModes];
+	UIKeyboardInputMode *firstInputMode = [activeInputModes objectAtIndex:0];
+	if ([activeInputModes count] == 1) {
+		return firstInputMode;
+	}
+	int index = [currentInputMode.identifier isEqualToString:[firstInputMode identifier]] ? a : b;
+	return [activeInputModes objectAtIndex:index];
+}
+
+// Quick change last keyboard.
+%group quickKeyboard
+%hook UIKeyboardInputModeController
+- (UIKeyboardInputMode *)lastUsedInputMode {
+	return keyboardResult(self, 0, 1);
+}
+
+- (UIKeyboardInputMode *)nextInputModeToUse {
+	return keyboardResult(self, 1, 0);
+}
+%end
+
+%hook UIKeyboardLayoutStar
+- (BOOL)showsDedicatedEmojiKeyAlongsideGlobeButton {
+	return NO;
+}
+- (NSString *)internationalKeyDisplayStringOnEmojiKeyboard {
+	return nil;
+}
+%end
+%end
+
 // iPhone X keyboard.
 %group KeyboardDock
 // Automatically adjusts the sized depending if Barmoji is installed or not.
@@ -166,7 +207,8 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 }
 %end
 
-// Moves the emoji and dictation icon on the keyboard. Automatically adjust the location depending if Barmoji is installed or not.
+// Moves the emoji and dictation icon on the keyboard.(Now lose dictation)
+// Automatically adjust the location depending if Barmoji is installed or not.
 %hook UIKeyboardDockView
 - (CGRect)bounds {
     if (NSClassFromString(@"BarmojiCollectionView"))
@@ -181,7 +223,6 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 // Enables the rounded dock of the iPhone X + rounds up the cards of the app switcher.
 %group roundedDock
-
 %hook UITraitCollection
 - (CGFloat)displayCornerRadius {
 	return appswitcherRoundness;
@@ -202,7 +243,6 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 
 // Move the control center grabber on the coversheet to a place where it is visible
 %group ccGrabber
-
 %hook CSTeachableMomentsContainerView
 - (void)_layoutControlCenterGrabberAndGlyph {
     %orig;
@@ -292,16 +332,16 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
     _insets.bottom = bottomInsetSize;
     return _insets;
 }
- %end
- %end
+%end
+%end
 
 // Enables PiP in video player.
 %group MobileGestalt
 %hookf(Boolean, "_MGGetBoolAnswer", CFStringRef key) {
-#define keyy(key_) CFEqual(key, CFSTR(key_))
-    if (keyy("nVh/gwNpy7Jv1NOk00CMrw"))
+    #define keyEqual(_key) CFEqual(key, CFSTR(_key))
+    if (keyEqual("nVh/gwNpy7Jv1NOk00CMrw"))
         return wantsPIP;
-    else if (keyy("z5G/N9jcMdgPm8UegLwbKg"))
+    else if (keyEqual("z5G/N9jcMdgPm8UegLwbKg"))
         return wantsProudLock;
     return %orig;
 }
@@ -340,11 +380,13 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
     return NO;
 }
 %end
+
 %hook CAMFlipButton
 - (BOOL)_useCTMAppearance {
     return YES;
 }
 %end
+
 // %hook CAMViewfinderViewController
 // - (BOOL)_wantsHDRControlsVisible {
 //     return NO;
@@ -368,6 +410,20 @@ BOOL wantsHideIconLabel, wantsHomeBarSB, wantsHomeBarLS, wantsKeyboardDock, want
 %end
 
 // Preferences.
+void initPrefs() {
+	NSString *path = @"/User/Library/Preferences/com.fionera.itweakprefs.plist";
+	NSString *pathLittle11 = @"/User/Library/Preferences/com.ryannair05.little11prefs.plist";
+	NSString *pathDefault = @"/Library/PreferenceBundles/itweakprefs.bundle/defaults.plist";
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:path]) {
+        if ([fileManager fileExistsAtPath:pathLittle11]) {
+            [fileManager copyItemAtPath:pathLittle11 toPath:path error:nil];
+        } else {
+		    [fileManager copyItemAtPath:pathDefault toPath:path error:nil];
+        }
+	}
+}
+
 void loadPrefs() {
 	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.fionera.itweakprefs.plist"];
     if (prefs) {
@@ -376,6 +432,7 @@ void loadPrefs() {
         screenRoundness = [[prefs objectForKey:@"screenRoundness"] integerValue];
         appswitcherRoundness = [[prefs objectForKey:@"appswitcherRoundness"] integerValue];
         bottomInsetVersion = [[prefs objectForKey:@"bottomInsetVersion"] integerValue];
+        wantsQuickKeyboard = [[prefs objectForKey:@"quickKeyboard"] boolValue];
         wantsHideIconLabel = [[prefs objectForKey:@"noIconLabel"] boolValue];
         wantsHomeBarSB = [[prefs objectForKey:@"homeBarSB"] boolValue];
         wantsHomeBarLS = [[prefs objectForKey:@"homeBarLS"] boolValue];
@@ -393,20 +450,6 @@ void loadPrefs() {
     }
 }
 
-void initPrefs() {
-	NSString *path = @"/User/Library/Preferences/com.fionera.itweakprefs.plist";
-	NSString *pathLittle11 = @"/User/Library/Preferences/com.ryannair05.little11prefs.plist";
-	NSString *pathDefault = @"/Library/PreferenceBundles/itweakprefs.bundle/defaults.plist";
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if (![fileManager fileExistsAtPath:path]) {
-        if ([fileManager fileExistsAtPath:pathLittle11]) {
-            [fileManager copyItemAtPath:pathLittle11 toPath:path error:nil];
-        } else {
-		    [fileManager copyItemAtPath:pathDefault toPath:path error:nil];
-        }
-	}
-}
-
 %ctor {
     @autoreleasepool {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.fionera.itweakprefs/prefsupdated"), NULL, CFNotificationSuspensionBehaviorCoalesce);
@@ -422,7 +465,7 @@ void initPrefs() {
 	    if (bottomInsetVersion == 1 || (bottomInsetVersion == 2 && [bundleIdentifier isEqualToString:@"com.tencent.xin"])) {
             %init(bottomInset)
         }
-        
+        if (wantsQuickKeyboard) %init(quickKeyboard);
         if (wantsHideIconLabel) %init(noIconLabel);
         if (!wantsHomeBarLS) %init(hideHomeBarLS);
         if (wantsHomeBarSB) {

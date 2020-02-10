@@ -12,6 +12,8 @@
 	<integer>19</integer>
 	<key>bottomInsetVersion</key>
 	<integer>0</integer>
+	<key>quickKeyboard</key>
+	<false/>
 	<key>noIconLabel</key>
 	<false/>
 	<key>homeBarLS</key>

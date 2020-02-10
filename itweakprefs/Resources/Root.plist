@@ -48,6 +48,20 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
+			<string>quickKeyboard</string>
+			<key>label</key>
+			<string>Quick Keyboard</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
 			<string>noIconLabel</string>
 			<key>label</key>
 			<string>Hide Icon Label</string>

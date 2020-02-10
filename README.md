@@ -14,6 +14,10 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.1
+
+- Quick Change Keyboard
+
 #### 1.2.0
 
 - Some implemetations from Little11 (1.2.0)
