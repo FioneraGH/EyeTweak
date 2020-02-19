@@ -198,7 +198,7 @@ UIKeyboardInputMode *keyboardResult(UIKeyboardInputModeController *object, int a
 + (UIEdgeInsets)deviceSpecificPaddingForInterfaceOrientation:(NSInteger)orientation inputMode:(id)mode {
     UIEdgeInsets orig = %orig;
     if (!NSClassFromString(@"BarmojiCollectionView"))
-        orig.bottom = 46;
+        orig.bottom = wantsKeyboardDock ? 46 : 0;
     if (orig.left == 75) {
         orig.left = 0;
         orig.right = 0;
@@ -474,7 +474,7 @@ void loadPrefs() {
         if (wants11Camera && [bundleIdentifier isEqualToString:@"com.apple.camera"]) {
             %init(iPhone11Cam);
         }
-        if (wantsKeyboardDock) %init(KeyboardDock);;
+        %init(KeyboardDock);
         
         if (wantsRoundedAppSwitcher) %init(roundedDock);
         %init(reduceRows);
