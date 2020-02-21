@@ -1,12 +1,11 @@
 Package: com.fionera.itweak
 Name: iTweak
 Depends: mobilesubstrate, preferenceloader
-Version: 1.2.2
+Version: 1.2.3
 Architecture: iphoneos-arm
-Description: Multi Tweaks on a jailbroken iOS 13.2+ iPhone
+Description: Multi Tweaks on a jailbroken iOS 13.2-13.3.1 iPhone
 Maintainer: fionera
 Author: fionera
 Section: Tweaks
 Replaces: com.binksalex.fluidify, com.vitataf.homegesture, com.VitaTaf.HomeGesture, com.ioscreatix.littlex, com.ryannair05.little11
-Provides: com.ryannair05.poseidon, com.ryannair05.poseidon-rounded, com.VitaTaf.HomeGesture, com.ioscreatix.littlex, com.duraidabdul.neptune
-Conflicts: com.binksalex.fluidify, com.vitataf.homegesture, com.VitaTaf.HomeGesture, com.ioscreatix.littlex
+Provides: com.binksalex.fluidify, com.vitataf.homegesture, com.VitaTaf.HomeGesture, com.ioscreatix.littlex, com.duraidabdul.neptune

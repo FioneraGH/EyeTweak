@@ -3,7 +3,7 @@ include $(THEOS)/makefiles/common.mk
 ARCHS = arm64
 
 BUNDLE_NAME = itweakprefs
-itweakprefs_FILES = L11RootListController.m
+itweakprefs_FILES = ETKRootListController.m
 itweakprefs_INSTALL_PATH = /Library/PreferenceBundles
 itweakprefs_PRIVATE_FRAMEWORKS = Preferences
 #itweakprefs_CFLAGS = -fobjc-arc

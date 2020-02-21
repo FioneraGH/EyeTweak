@@ -14,6 +14,14 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.3
+
+- Code Refactor
+
+- Preference resort
+
+- Add `ldrestart`
+
 #### 1.2.2
 
 - Normal KeyboardDock

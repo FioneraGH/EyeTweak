@@ -1,6 +1,6 @@
-#include "L11RootListController.h"
+#include "ETKRootListController.h"
 
-@implementation LXSRootListController
+@implementation ETKRootListController
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
@@ -31,8 +31,14 @@
 
 - (void)respring:(id)sender {
 	pid_t pid;
-    const char* args[] = {"killall", "-9", "backboardd", NULL};
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+    const char* args[] = {"/usr/bin/killall", "-9", "backboardd", NULL};
+    posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+}
+
+- (void)ldrestart:(id)sender {
+	pid_t pid;
+	const char* args[] = {"/usr/bin/ldrestart", NULL};
+    posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
 }
 
 @end

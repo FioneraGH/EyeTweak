@@ -48,20 +48,6 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>quickKeyboard</string>
-			<key>label</key>
-			<string>Quick Keyboard</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
 			<string>noIconLabel</string>
 			<key>label</key>
 			<string>Hide Icon Label</string>
@@ -114,51 +100,13 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>roundedAppSwitcher</string>
-			<key>label</key>
-			<string>Rounded App Switcher + Dock</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>isSegmented</key>
-			<true/>
-			<key>default</key>
-			<real>6</real>
-			<key>leftImage</key>
-			<string></string>
-			<key>max</key>
-			<real>30</real>
-			<key>min</key>
-			<integer>5</integer>
-			<key>rightImage</key>
-			<string></string>
-			<key>showValue</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>appswitcherRoundness</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
 			<false/>
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>reduceRows</string>
+			<string>quickKeyboard</string>
 			<key>label</key>
-			<string>Reduce Icon Rows by 1</string>
+			<string>Quick Keyboard</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -254,6 +202,58 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>roundedAppSwitcher</string>
+			<key>label</key>
+			<string>Rounded App Switcher + Dock</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>isSegmented</key>
+			<true/>
+			<key>default</key>
+			<real>6</real>
+			<key>leftImage</key>
+			<string></string>
+			<key>max</key>
+			<real>30</real>
+			<key>min</key>
+			<integer>5</integer>
+			<key>rightImage</key>
+			<string></string>
+			<key>showValue</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>appswitcherRoundness</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>reduceRows</string>
+			<key>label</key>
+			<string>Reduce Icon Rows by 1</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Misc Settings</string>
@@ -308,6 +308,20 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
+			<string>lsShortcutsEnabled</string>
+			<key>label</key>
+			<string>LockScreen Shortcuts</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
 			<string>PIP</string>
 			<key>label</key>
 			<string>Picture In Picture</string>
@@ -344,20 +358,6 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>lsShortcutsEnabled</string>
-			<key>label</key>
-			<string>LockScreen Shortcuts</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Apply Changes</string>
@@ -371,6 +371,22 @@
 			<string>PSButtonCell</string>
 			<key>label</key>
 			<string>Respring</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Soft Reboot</string>
+			<key>footerText</key>
+			<string>You can ldrestart to make a soft reboot.</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>ldrestart:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>LDRestart</string>
 		</dict>
 	</array>
 	<key>title</key>
