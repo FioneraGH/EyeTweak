@@ -30,15 +30,25 @@
 }
 
 - (void)respring:(id)sender {
-	pid_t pid;
-    const char* args[] = {"/usr/bin/killall", "-9", "backboardd", NULL};
-    posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+	// pid_t pid;
+    // const char* args[] = {"/usr/bin/killall", "-9", "backboardd", NULL};
+    // posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/killall" arguments:@[@"-9", @"backboardd"]];
 }
 
 - (void)ldrestart:(id)sender {
-	pid_t pid;
-	const char* args[] = {"/usr/bin/ldrestart", NULL};
-    posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+	// pid_t pid;
+	// const char* args[] = {"/usr/bin/ldrestart", NULL};
+    // posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+
+	UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"LDRestart" message:@"LDRestast is not useful cause of permission." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+	UIAlertAction *ldrestartAction = [UIAlertAction actionWithTitle:@"LDRestart" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+		[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ldrestart" arguments:@[]];
+	}];
+	[alertController addAction:ldrestartAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end
