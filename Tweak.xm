@@ -412,15 +412,10 @@ UIKeyboardInputMode *keyboardResult(UIKeyboardInputModeController *object, int a
 // Preferences.
 void initPrefs() {
 	NSString *path = @"/User/Library/Preferences/com.fionera.itweakprefs.plist";
-	NSString *pathLittle11 = @"/User/Library/Preferences/com.ryannair05.little11prefs.plist";
 	NSString *pathDefault = @"/Library/PreferenceBundles/itweakprefs.bundle/defaults.plist";
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:path]) {
-        if ([fileManager fileExistsAtPath:pathLittle11]) {
-            [fileManager copyItemAtPath:pathLittle11 toPath:path error:nil];
-        } else {
-		    [fileManager copyItemAtPath:pathDefault toPath:path error:nil];
-        }
+		[fileManager copyItemAtPath:pathDefault toPath:path error:nil];
 	}
 }
 

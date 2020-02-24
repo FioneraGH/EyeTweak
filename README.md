@@ -14,6 +14,10 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.5
+
+- ldRun for `ldrestart`
+
 #### 1.2.4
 
 - Import NSTask.h for command exec

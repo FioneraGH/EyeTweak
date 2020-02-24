@@ -45,7 +45,7 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
 	UIAlertAction *ldrestartAction = [UIAlertAction actionWithTitle:@"LDRestart" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-		[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ldrestart" arguments:@[]];
+		[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ldRun" arguments:@[]];
 	}];
 	[alertController addAction:ldrestartAction];
     [self presentViewController:alertController animated:YES completion:nil];

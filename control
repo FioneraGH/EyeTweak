@@ -1,7 +1,7 @@
 Package: com.fionera.itweak
 Name: iTweak
 Depends: mobilesubstrate, preferenceloader
-Version: 1.2.4
+Version: 1.2.5
 Architecture: iphoneos-arm
 Description: Multi Tweaks on a jailbroken iOS 13.2-13.3.1 iPhone
 Maintainer: fionera
