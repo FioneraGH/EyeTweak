@@ -33,6 +33,7 @@
 	// pid_t pid;
     // const char* args[] = {"/usr/bin/killall", "-9", "backboardd", NULL};
     // posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
+	
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/killall" arguments:@[@"-9", @"backboardd"]];
 }
 
@@ -41,7 +42,7 @@
 	// const char* args[] = {"/usr/bin/ldrestart", NULL};
     // posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
 
-	UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"LDRestart" message:@"LDRestast is not useful cause of permission." preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"LDRestart" message:@"LDRestart is used to restart daemons.\n(Use ldRun to acheive it)" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
 	UIAlertAction *ldrestartAction = [UIAlertAction actionWithTitle:@"LDRestart" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {

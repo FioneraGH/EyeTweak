@@ -1,5 +1,8 @@
-export TARGET = iphone:clang:13.0
+export THEOS_DEVICE_IP=127.0.0.1
+export THEOS_DEVICE_PORT=2222
+
 export ADDITIONAL_CFLAGS = -DTHEOS_LEAN_AND_MEAN -fobjc-arc
+export TARGET = iphone:clang:13.0
 
 FINALPACKAGE=1
 
