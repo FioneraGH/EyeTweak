@@ -9,8 +9,6 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Global Settings</string>
-			<key>footerText</key>
-			<string>These settings automatically apply to every app and springboard.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -44,13 +42,13 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<false/>
+			<true/>
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>noIconLabel</string>
+			<string>lsShortcutsEnabled</string>
 			<key>label</key>
-			<string>Hide Icon Label</string>
+			<string>LockScreen Shortcuts</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -64,7 +62,7 @@
 			<key>key</key>
 			<string>homeBarSB</string>
 			<key>label</key>
-			<string>Home Bar (System-wide)</string>
+			<string>Home Bar in Applications</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -78,7 +76,21 @@
 			<key>key</key>
 			<string>homeBarLS</string>
 			<key>label</key>
-			<string>Home Bar (LockScreen)</string>
+			<string>Home Bar in CoverSheet</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>PIP</string>
+			<key>label</key>
+			<string>Picture In Picture</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -107,6 +119,20 @@
 			<string>quickKeyboard</string>
 			<key>label</key>
 			<string>Quick Keyboard</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>noIconLabel</string>
+			<key>label</key>
+			<string>Hide Icon Label</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -238,6 +264,7 @@
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -246,18 +273,27 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>reduceRows</string>
+			<string>11Camera</string>
 			<key>label</key>
-			<string>Reduce Icon Rows by 1</string>
+			<string>iPhone 11 Camera UI [BETA]</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.fionera.itweakprefs</string>
+			<key>key</key>
+			<string>noGesturesForKeyboard</string>
 			<key>label</key>
-			<string>Misc Settings</string>
+			<string>No Gestures While Using Keyboard</string>
+			<key>PostNotification</key>
+			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -266,9 +302,9 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>ccGrabber</string>
+			<string>hideSBCC</string>
 			<key>label</key>
-			<string>CC Grabber</string>
+			<string>Hide Status Bar in Control Center</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -294,37 +330,9 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>HideSBCC</string>
+			<string>iPadDock</string>
 			<key>label</key>
-			<string>Hide Status Bar in Control Center</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>lsShortcutsEnabled</string>
-			<key>label</key>
-			<string>LockScreen Shortcuts</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>PIP</string>
-			<key>label</key>
-			<string>Picture In Picture</string>
+			<string>iPad Dock</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
@@ -336,26 +344,13 @@
 			<key>defaults</key>
 			<string>com.fionera.itweakprefs</string>
 			<key>key</key>
-			<string>ProudLock</string>
+			<string>proudLock</string>
 			<key>label</key>
 			<string>FaceID Animations [BETA]</string>
 			<key>PostNotification</key>
 			<string>com.fionera.itweakprefs/prefsupdated</string>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.fionera.itweakprefs</string>
-			<key>key</key>
-			<string>11Camera</string>
-			<key>label</key>
-			<string>iPhone 11 Camera UI [BETA]</string>
-			<key>PostNotification</key>
-			<string>com.fionera.itweakprefs/prefsupdated</string>
-		</dict>
+
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -372,6 +367,7 @@
 			<key>label</key>
 			<string>Respring</string>
 		</dict>
+
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

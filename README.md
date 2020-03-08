@@ -14,6 +14,10 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.6
+
+- Refactor.
+
 #### 1.2.5
 
 - ldRun for `ldrestart`
@@ -59,3 +63,8 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 - Remove `New bottom inset`
 - Remove YT/IG tweaks
 - Adjust SB configuration for portrait layout
+
+#### 0.0.1
+
+- Little11 (partitial code)
+

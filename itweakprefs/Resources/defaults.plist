@@ -4,45 +4,65 @@
 <dict>
 	<key>statusBarStyle</key>
 	<integer>2</integer>
-	<key>bottomInsetSize</key>
-	<integer>18</integer>
-	<key>screenRoundness</key>
-	<integer>19</integer>
-	<key>appswitcherRoundness</key>
-	<integer>19</integer>
+
 	<key>bottomInsetVersion</key>
 	<integer>0</integer>
-	<key>quickKeyboard</key>
-	<false/>
-	<key>noIconLabel</key>
-	<false/>
-	<key>homeBarLS</key>
-	<false/>
-	<key>homeBarSB</key>
-	<false/>
-	<key>keyboardDock</key>
-	<true/>
-	<key>roundedAppSwitcher</key>
-	<true/>
-	<key>reduceRows</key>
-	<false/>
-	<key>ccGrabber</key>
-	<false/>
-	<key>batteryPercent</key>
-	<false/>
-	<key>HideSBCC</key>
-	<false/>
-	<key>PIP</key>
-	<true/>
-	<key>ProudLock</key>
-	<false/>
-	<key>originalButtons</key>
-	<false/>
-	<key>roundedCorners</key>
-	<false/>
+
+	<key>bottomInsetSize</key>
+	<integer>18</integer>
+
+	<key>appswitcherRoundness</key>
+	<integer>19</integer>
+
+	<key>screenRoundness</key>
+	<integer>19</integer>
+
+	<!-- Seperator -->
+
 	<key>lsShortcutsEnabled</key>
 	<true/>
+
+	<key>homeBarSB</key>
+	<false/>
+	
+	<key>homeBarLS</key>
+	<false/>
+
+	<key>PIP</key>
+	<true/>
+
+	<key>keyboardDock</key>
+	<true/>
+
 	<key>11Camera</key>
 	<false/>
+	
+	<key>noGesturesForKeyboard</key>
+	<false/>
+
+	<key>quickKeyboard</key>
+	<false/>
+
+	<key>noIconLabel</key>
+	<false/>
+
+	<key>roundedAppSwitcher</key>
+	<true/>
+
+	<key>roundedCorners</key>
+	<false/>
+
+	<key>hideSBCC</key>
+	<false/>
+
+	<key>batteryPercent</key>
+	<false/>
+
+	<key>iPadDock</key>
+	<false/>
+	
+	<key>proudLock</key>
+	<false/>
+	
 </dict>
 </plist>
