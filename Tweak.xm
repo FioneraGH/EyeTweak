@@ -112,6 +112,18 @@ BOOL
 %end
 %end
 
+%group StatusBarNormal
+// Font size are not same, need fix.
+%hook CCUIHeaderPocketView
+- (void)setFrame:(CGRect)frame {
+    %orig(CGRectMake(frame.origin.x, -40, frame.size.width, frame.size.height));
+}
+- (void)setCompactScaleTransform:(CGAffineTransform)arg1 {
+    return;
+}
+%end
+%end
+
 // Hide the homebar
 %hook SBFHomeGrabberSettings
 - (BOOL)isEnabled {
@@ -122,7 +134,7 @@ BOOL
 // Hide the homebar on the lockscreen
 %hook CSTeachableMomentsContainerView
 - (void)setHomeAffordanceContainerView:(UIView *)arg1 {
-    if (wantsHomeBarLS) {
+    if (!wantsHomeBarLS) {
         return;
     }
     %orig;
@@ -358,6 +370,16 @@ UIKeyboardInputMode *keyboardResult(UIKeyboardInputModeController *object, int a
 	return YES;
 }
 %end
+
+%hook SBIconListView
+- (unsigned long long)iconRowsForCurrentOrientation {
+    // Keep 3 in folders
+    if (%orig < 4) {
+        return %orig;
+    }
+    return %orig + 2;
+}
+%end
 %end
 
 // Adds the padlock to the lockscreen.
@@ -371,7 +393,6 @@ UIKeyboardInputMode *keyboardResult(UIKeyboardInputModeController *object, int a
 }
 %end
 %end
-
 
 // Allows you to use the non-X iPhone button combinations. - For some reason only works on some devices - Just as the iPhone X Combinations
 %group originalButtons
@@ -496,7 +517,7 @@ void loadPrefs() {
 
         if (statusBarStyle == 1) %init(StatusBariPad)
         else if (statusBarStyle == 2) %init(StatusBarX);
-        else wantsHideSBCC = YES;
+        else %init(StatusBarNormal);
 
 	    if (bottomInsetVersion == 1 || (bottomInsetVersion == 2 && [bundleIdentifier isEqualToString:@"com.tencent.xin"])) {
             %init(bottomInset)

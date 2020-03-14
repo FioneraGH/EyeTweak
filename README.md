@@ -14,6 +14,14 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.7
+
+- Fix invert option for homeBarLS
+
+- 2 extra rows for iPadDock
+
+- Keep StatusBar snapshot temporary, but it is glitch
+
 #### 1.2.6
 
 - Refactor.
