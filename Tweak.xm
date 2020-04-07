@@ -156,17 +156,17 @@ BOOL
 }
 %end
 
-// Enables PiP/ProundLock.
-extern "C" Boolean MGGetBoolAnswer(CFStringRef);
-%hookf(Boolean, "_MGGetBoolAnswer", CFStringRef key) {
-    #define keyEqual(_key) CFEqual(key, CFSTR(_key))
+// // Enables PiP/ProundLock.
+// extern "C" Boolean MGGetBoolAnswer(CFStringRef);
+// %hookf(Boolean, "_MGGetBoolAnswer", CFStringRef key) {
+//     #define keyEqual(_key) CFEqual(key, CFSTR(_key))
 
-    if (keyEqual("nVh/gwNpy7Jv1NOk00CMrw"))
-        return wantsPIP;
-    else if (keyEqual("z5G/N9jcMdgPm8UegLwbKg"))
-        return wantsProudLock;
-    return %orig;
-}
+//     if (keyEqual("nVh/gwNpy7Jv1NOk00CMrw"))
+//         return wantsPIP;
+//     else if (keyEqual("z5G/N9jcMdgPm8UegLwbKg"))
+//         return wantsProudLock;
+//     return %orig;
+// }
 
 // Adds the bottom inset to the screen.
 %group bottomInset			
