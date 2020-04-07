@@ -42,10 +42,10 @@
 	// const char* args[] = {"/usr/bin/ldrestart", NULL};
     // posix_spawn(&pid, args[0], NULL, NULL, (char* const*)args, NULL);
 
-	UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"LDRestart" message:@"LDRestart is used to restart daemons.\n(Use ldRun to acheive it)" preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController* alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"LDRestart:%f", kCFCoreFoundationVersionNumber] message:@"LDRestart is used to restart daemons.\n(Use ldRun to acheive it)" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
-	UIAlertAction *ldrestartAction = [UIAlertAction actionWithTitle:@"LDRestart" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+	UIAlertAction *ldrestartAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
 		[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ldRun" arguments:@[]];
 	}];
 	[alertController addAction:ldrestartAction];

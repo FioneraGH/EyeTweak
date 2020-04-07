@@ -14,6 +14,10 @@ Run `make package` and it will compile the deb in ./packages/ directory.
 
 ### Changelog
 
+#### 1.2.8
+
+- Version check support
+
 #### 1.2.7
 
 - Fix invert option for homeBarLS

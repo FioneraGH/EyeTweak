@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <version.h>
 
 #define CGRectSetY(rect, y) CGRectMake(rect.origin.x, y, rect.size.width, rect.size.height)
 
